@@ -2,6 +2,7 @@
 project/
 │ 
 ├── data/
+
 │   ├── raw/               # Unprocessed original dataset files
 
 │   └── processed/         # Cleaned and pre-processed datasets used for analysis
