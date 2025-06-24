@@ -1,28 +1,35 @@
 # Credit-Card-Financial
 project/
-│
+│ 
 ├── data/
 │   ├── raw/               # Unprocessed original dataset files
+
 │   └── processed/         # Cleaned and pre-processed datasets used for analysis
+
 │
 ├── notebooks/
+
 │   ├── cleaning          # Jupyter notebooks for data cleaning and preparation
+
 │   └── data_analysis     # Jupyter notebooks with charts and insights
+
 │
 ├── results/             # Exported charts (JPG, PNG, HTML) and final dashboard assets
+
 │
 └── docs/                  # Documentation including presentation slides and report files
 
-📌 Project Overview
+
+# 📌 Project Overview
 This project focuses on analyzing customer credit card data to uncover insights into user behavior, income distribution, credit limit usage, satisfaction levels, and more. It supports both exploratory analysis and dashboard visualization using tools like Plotly and Looker Studio.
 
-🧼 Data Cleaning (notebooks/cleaning)
+# 🧼 Data Cleaning (notebooks/cleaning)
 - Removed null values and standardized data types
 - Cleaned and grouped categorical variables like Workclass, Card_Category, and Education_Level
 - Created new features (e.g., Month for temporal analysis)
 - Replaced inconsistent values using .replace() for better grouping
 
-  📊 Data Analysis Summary
+# 📊 Data Analysis Summary
 We explored customer behavior through grouped metrics and visualizations:
 
 - Average Income by Education Level
