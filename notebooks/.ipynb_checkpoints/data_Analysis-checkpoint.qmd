@@ -96,26 +96,6 @@ We load the cleaned version of the Credit Card Financial Dataset from the data/p
 
 The first ten records are displayed using the `head(5)` function to provide a preview of key columns such as `Client_Num`, `Card_Category`, `Annual_Fees`, `Credit_Limit`, `Total_Trans_Amt`, `Cust_Satisfaction_Score`.... This initial view helps confirm successful loading and gives a quick look at the structure and content of the cleaned dataset.
 
-::: {.panel-tabset}
-## Output {.active}
-```{python} 
-#| label: Credit_Card_Financial
-#| tbl-cap: Credit Card Financial Dataset
-
-merged_data_filename = os.path.join(processed_dir, "Credit_Card_Financial.csv")
-merged_df = pd.read_csv(merged_data_filename)
-merged_df.head()
-```
-
-## Code
-
-```{python}
-#| output: false
-merged_data_filename = os.path.join(processed_dir, "Credit_Card_Financial.csv")
-merged_df = pd.read_csv(merged_data_filename)
-```
-
-:::
 ## Dataset Dimensions and Data Types
 
 Here, we examine the structure of the dataset:
@@ -819,7 +799,7 @@ fig.update_layout(
     yaxis_title = "Total Transaction Amount",
     paper_bgcolor="white",
     plot_bgcolor="white",
-    margin=dict(l=60, r=50, t=50, b=50),
+    margin=dict(l=80, r=30, t=50, b=150),
     font=dict(color="black"),
     xaxis=dict(showgrid=False, color = "black"),
     yaxis=dict(showgrid=False, color = "black")
@@ -997,7 +977,7 @@ fig.update_layout(
     template="presentation",
     bargap=0.4,
     bargroupgap=0.2, 
-    margin=dict(l=60, r=50, t=50, b=150),
+    margin=dict(l=80, r=50, t=50, b=150),
     paper_bgcolor="rgba(0,0,0,0)",
     plot_bgcolor="rgba(0,0,0,0)",
     height=700,
@@ -1020,61 +1000,7 @@ Fewer extremes (very satisfied/dissatisfied).
 
 Implication: Service improvements could target mid-range scorers to boost loyalty.
 
-## Customer Occupation Breakdown
 
-```{python}
-#| echo: false
-#| output: false
-job_df = merged_df.groupby('Customer_Job')['Client_Num'].count().reset_index(name='customer_count')
-job_df = job_df.sort_values(by='customer_count', ascending=False)
-job_df
-```
-
-```{python}
-#| echo: false
-#| output: false
-total_jobs = job_df['customer_count'].sum()
-job_df['percentage'] = (job_df['customer_count'] / total_jobs) * 100
-job_df
-```
-
-```{python}
-fig = px.bar(
-    job_df,
-    x='Customer_Job',
-    y='percentage',
-    title='Customer Occupation Breakdown (%)',
-    height=700,
-    width=1100,
-    color_discrete_sequence=['#002366'],
-    text='percentage'
-)
-
-fig.update_layout(
-    template="presentation",
-    xaxis_title="Customer Job",
-    yaxis_title="Percentage of Customers",
-    bargap=0.4,
-    bargroupgap=0.2,
-    margin=dict(l=60, r=50, t=50, b=150),
-    paper_bgcolor="rgba(0,0,0,0)",
-    plot_bgcolor="rgba(0,0,0,0)",
-    xaxis=dict(showgrid=False),
-    yaxis=dict(showgrid=False)
-)
-
-fig.update_traces(
-    texttemplate="%{text:.2f}%",
-    textposition="outside",
-    marker_line_width=0
-)
-
-fig.write_image(os.path.join(results_dir, 'Customer_Job_Breakdown.jpg'))
-fig.write_image(os.path.join(results_dir, 'Customer_Job_Breakdown.png'))
-fig.write_html(os.path.join(results_dir, 'Customer_Job_Breakdown.html'))
-
-fig.show()
-```
 
 This chart presents the percentage distribution of customers across different job types. It helps in profiling the customer base and targeting services based on occupation-related income stability
 Top occupations: "SelfEmployed" (25.47%), BusinessMan (18.81%), blue-collar (15.62%).
@@ -1100,69 +1026,6 @@ fig.write_html(os.path.join(results_dir, 'Spending_by_Expense_Type.html'))
 
 fig.show()
 ```
-
-This chart breaks down total spending into categories like groceries, travel, or bills. It provides insights into where customers spend most of their money and can guide product recommendations.
-Bills and Entertainment likely dominate (exact percentages unclear due to missing labels).
-
-Implication: Essential expenses (Bills/Entertainment) are primary spending drivers.
-
-## Delinquent Accounts by State 
-
-```{python}
-#| echo: false
-#| output: false
-delinq_by_state = merged_df.groupby('state_cd')['Delinquent_Acc'].sum().reset_index(name='total_delinquent')
-delinq_by_state = delinq_by_state.sort_values(by='total_delinquent', ascending=False)
-delinq_by_state
-```
-
-```{python}
-#| echo: false
-#| output: false
-total_delinq = delinq_by_state['total_delinquent'].sum()
-delinq_by_state['percentage'] = (delinq_by_state['total_delinquent'] / total_delinq) * 100
-delinq_by_state
-```
-
-```{python}
-num = 10
-delinq_by_states =  delinq_by_state.head(num)
-
-fig = px.bar(
-    delinq_by_states,
-    x='total_delinquent',
-    y='state_cd',
-    orientation='h',
-    title = f'Top {num} Delinquent Accounts by State',
-    height=700,
-    width=1100,
-    color_discrete_sequence=['#002366'],
-    text='total_delinquent'
-)
-
-fig.update_layout(
-    template="presentation",
-    xaxis_title='Number of Delinquent Accounts',
-    yaxis_title='State',
-    margin=dict(l=250, r=50, t=50, b=50),
-    paper_bgcolor="rgba(0,0,0,0)",
-    plot_bgcolor="rgba(0,0,0,0)",
-    xaxis=dict(showgrid=False),
-    yaxis=dict(showgrid=False)
-)
-
-fig.update_traces(textposition='inside')
-fig.write_image(os.path.join(results_dir, 'Delinquent_Accounts_by_State.jpg'))
-fig.write_image(os.path.join(results_dir, 'Delinquent_Accounts_by_State.png'))
-fig.write_html(os.path.join(results_dir, 'Delinquent_Accounts_by_State.html'))
-
-fig.show()
-```
-
-This bar chart highlights the states with the most delinquent accounts. It is useful for regional risk assessment and credit policy adjustments.
-Ney York (154), California (145), and Texas (144) lead in delinquencies.
-
-Implication: Higher-risk regions may need targeted collection strategies.
 
 ## Customer Count by Satisfaction Level
 
@@ -1273,7 +1136,7 @@ fig.update_layout(
 
 fig.update_traces(
     texttemplate="%{text:.2f}%",
-    textposition="outside",
+    textposition = "outside",
     marker_line_width=0
 )
 
@@ -1286,55 +1149,3 @@ fig.show()
 
 This chart presents the percentage distribution of customers across different job types. It helps in profiling the customer base and targeting services based on occupation-related income stability
 Top occupations: "SelfEmployed" (25.47%), BusinessMan (18.81%), blue-collar (15.62%).
-
-`
-
-```{python}
-#| echo: false
-#| output: false
-total_jobs = job_df['customer_count'].sum()
-job_df['percentage'] = (job_df['customer_count'] / total_jobs) * 100
-job_df
-```
-
-```{python}
-fig = px.bar(
-    job_df,
-    x='Customer_Job',
-    y='percentage',
-    title='Customer Occupation Breakdown (%)',
-    height=700,
-    width=1100,
-    color_discrete_sequence=['#002366'],
-    text='percentage'
-)
-
-fig.update_layout(
-    template="presentation",
-    xaxis_title="Customer Job",
-    yaxis_title="Percentage of Customers",
-    bargap=0.4,
-    bargroupgap=0.2,
-    margin=dict(l=60, r=50, t=50, b=150),
-    paper_bgcolor="rgba(0,0,0,0)",
-    plot_bgcolor="rgba(0,0,0,0)",
-    xaxis=dict(showgrid=False),
-    yaxis=dict(showgrid=False)
-)
-
-fig.update_traces(
-    texttemplate="%{text:.2f}%",
-    textposition="outside",
-    marker_line_width=0
-)
-
-fig.write_image(os.path.join(results_dir, 'Customer_Job_Breakdown.jpg'))
-fig.write_image(os.path.join(results_dir, 'Customer_Job_Breakdown.png'))
-fig.write_html(os.path.join(results_dir, 'Customer_Job_Breakdown.html'))
-
-fig.show()
-```
-
-This chart presents the percentage distribution of customers across different job types. It helps in profiling the customer base and targeting services based on occupation-related income stability
-Top occupations: "SelfEmployed" (25.47%), BusinessMan (18.81%), blue-collar (15.62%).
-
