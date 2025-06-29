@@ -1,6 +1,6 @@
 ---
 title: "Credit Card Financial Data Insights"
-subtitle: "Comprehensive Analysis & Strategic Recommendations"
+subtitle: "Comprehensive Analysis & Strategic Recommendations Based on 2023 Data"
 author: "Nadia Iradukunda Hirwa & Jedidah Jah Uwiwe"
 date: "2025-06-30"
 format:
@@ -11,8 +11,7 @@ format:
     controls: true
     controls-layout: bottom-right
     controls-tutorial: true
-    slide-number: true
-    show-slide-number: all
+    slide-number: false
     code-fold: true
     code-tools: true
     highlight-style: github
@@ -70,7 +69,7 @@ jupyter: python3
 
 # Credit Card Financial Data Insights {.title-slide}
 
-## Comprehensive Analysis & Strategic Recommendations
+## Comprehensive Analysis & Strategic Recommendations Based on 2023 Data
 
 **Nadia Iradukunda Hirwa & Jedidah Jah Uwiwe**  
 *Junior Data Analysts*
@@ -78,6 +77,8 @@ jupyter: python3
 ---
 
 ## Agenda
+
+**Our presentation covers:**
 
 1. **Project Overview & Methodology**
 2. **Dataset Characteristics & Data Quality**
@@ -92,9 +93,11 @@ jupyter: python3
 
 ## Project Overview
 
+**Key Project Details:**
+
 - **Dataset**: 10,108 credit card customers
 - **Variables**: 32 features (demographics, financial, behavioral)
-- **Time Period**: 2023 data
+- **Time Period**: 2023 data only (single year)
 - **Objective**: Uncover customer behavior patterns and business insights
 - **Tools**: Python, Pandas, Plotly, Statistical Analysis
 
@@ -104,22 +107,34 @@ jupyter: python3
 
 ```{python}
 #| echo: true
-#| code-summary: "Data Loading and Setup"
+#| code-summary: "Analysis Methodology"
 
-import os
-import pandas as pd
-import numpy as np
-import plotly.express as px
-import seaborn as sns
-import matplotlib.pyplot as plt
-from scipy.stats import ttest_ind, skew, kurtosis
-
-# Load the cleaned dataset
-merged_data_filename = os.path.join("..", "data", "processed", "Credit_Card_Financial.csv")
-merged_df = pd.read_csv(merged_data_filename)
-
-print(f"Dataset Shape: {merged_df.shape}")
-print(f"Total Customers: {merged_df['Client_Num'].nunique()}")
+print("📊 Analysis Methodology:")
+print("=" * 40)
+print("1. Exploratory Data Analysis (EDA)")
+print("   - Data profiling and quality assessment")
+print("   - Descriptive statistics and distributions")
+print("   - Missing value and outlier detection")
+print()
+print("2. Statistical Testing & Inference")
+print("   - Correlation analysis between key variables")
+print("   - T-tests for demographic differences")
+print("   - Distribution analysis (skewness, kurtosis)")
+print()
+print("3. Advanced Analytics")
+print("   - Customer segmentation analysis")
+print("   - Behavioral pattern identification")
+print("   - Risk assessment and satisfaction analysis")
+print()
+print("4. Business Intelligence")
+print("   - Interactive visualizations (Plotly)")
+print("   - Statistical plots (Seaborn, Matplotlib)")
+print("   - Data-driven recommendations")
+print()
+print("5. Tools & Technologies")
+print("   - Python: Pandas, NumPy, Scipy")
+print("   - Visualization: Plotly, Seaborn, Matplotlib")
+print("   - Statistical Analysis: Hypothesis testing, correlation")
 ```
 
 ---
@@ -128,6 +143,7 @@ print(f"Total Customers: {merged_df['Client_Num'].nunique()}")
 
 - **Sample Size**: 10,108 customers
 - **Features**: 32 variables
+- **Time Period**: 2023 only (temporal limitation)
 - **Data Quality**: Clean, merged dataset with no missing values
 - **Key Variable Categories**:
   - Demographics (Age, Gender, Education, Marital Status)
@@ -141,6 +157,19 @@ print(f"Total Customers: {merged_df['Client_Num'].nunique()}")
 ```{python}
 #| echo: true
 #| code-summary: "Data Quality Check"
+
+# Import libraries and load data
+import os
+import pandas as pd
+import numpy as np
+import plotly.express as px
+import seaborn as sns
+import matplotlib.pyplot as plt
+from scipy.stats import ttest_ind, skew, kurtosis
+
+# Load the cleaned dataset
+merged_data_filename = os.path.join("..", "data", "processed", "Credit_Card_Financial.csv")
+merged_df = pd.read_csv(merged_data_filename)
 
 # Check for missing values
 missing_values = merged_df.isnull().sum()
@@ -181,6 +210,11 @@ print(f"Credit_Limit vs Total_Trans_Amt: {corr_matrix.loc['Credit_Limit', 'Total
 #| echo: true
 #| fig-cap: "Correlation Matrix of Key Financial Variables"
 
+# Calculate correlations for key financial variables
+corr_vars = ['Income', 'Credit_Limit', 'Total_Trans_Amt', 'Annual_Fees']
+corr_matrix = merged_df[corr_vars].corr()
+
+# Create the heatmap
 plt.figure(figsize=(5, 4))
 sns.heatmap(corr_matrix, annot=True, cmap='Blues', center=0, 
             square=True, linewidths=0.5, cbar_kws={"shrink": .8})
@@ -454,15 +488,17 @@ fig.show()
 ## Limitations & Future Work
 
 ### Current Limitations
-- Dataset may not represent all demographics equally
-- Limited temporal analysis (single year)
-- Missing some advanced features (credit scores, payment history)
+- **Temporal Constraint**: 2023-only data (no multi-year trends)
+- **Seasonal Effects**: Cannot capture year-over-year patterns
+- **Economic Context**: Limited to 2023 economic conditions
+- **Dataset may not represent all demographics equally**
+- **Missing some advanced features** (credit scores, payment history)
 
 ### Future Research Directions
-- **Longitudinal analysis** across multiple years
+- **Longitudinal analysis** across multiple years (2022-2024+)
+- **Seasonal trend analysis** with multi-year data
+- **Economic impact studies** across different time periods
 - **Machine learning models** for credit limit prediction
-- **Advanced segmentation** using clustering techniques
-- **Real-time monitoring** systems for outlier detection
 
 ---
 
@@ -488,5 +524,5 @@ fig.show()
 
 **Nadia Iradukunda Hirwa & Jedidah Jah Uwiwe**  
 *Junior Data Analysts*
-  
+
 **Dashboard**: [Credit Card Financial Dashboard](https://lookerstudio.google.com/u/0/reporting/d29f32ef-cbc1-4b61-91a4-120c2888e857/page/p_tgd5vudltd)
