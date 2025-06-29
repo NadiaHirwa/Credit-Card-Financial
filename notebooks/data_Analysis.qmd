@@ -46,7 +46,7 @@ We begin by importing the necessary Python libraries:
 
 warnings: to suppress unnecessary runtime warnings for cleaner outputs.
 
-This notebook lays the foundation for deeper statistical modeling and dashboard reporting by providing a clear and structured view of the data's characteristics and trends.
+This notebook lays the foundation for deeper statistical modeling and dashboard reporting by providing a clear and structured view of the data’s characteristics and trends.
 
 ```{python}
 # Import libraries 
@@ -96,7 +96,9 @@ We load the cleaned version of the Credit Card Financial Dataset from the data/p
 
 The first ten records are displayed using the `head(5)` function to provide a preview of key columns such as `Client_Num`, `Card_Category`, `Annual_Fees`, `Credit_Limit`, `Total_Trans_Amt`, `Cust_Satisfaction_Score`.... This initial view helps confirm successful loading and gives a quick look at the structure and content of the cleaned dataset.
 
-## Output
+
+::: {.panel-tabset}
+## Output {.active}
 ```{python}
 #| label: Credit_Card_Financial
 #| tbl-cap: Credit Card Financial Dataset
@@ -113,6 +115,7 @@ merged_df.head(5)
 merged_data_filename = os.path.join(processed_dir, "Credit_Card_Financial.csv")
 merged_df = pd.read_csv(merged_data_filename)
 ```
+:::
 
 ```{python}
 #| output: false
@@ -184,7 +187,7 @@ Customers report an average of 2.35 dependents, ranging up to 5, with the most c
 
 Income is perhaps the most skewed feature. It spans from $1,250 to $239,791, with a mean of $56,976 and median near $44,768. This implies income inequality in the sample, with a small number of high earners pulling up the average. The majority earn below $76K, with a significant concentration in the lower brackets.
 
-Finally, customer satisfaction scores range from 1 (low) to 5 (high), with an average of 3.19. This moderate central tendency suggests generally neutral-to-positive feedback, but with room for improvement. The distribution's standard deviation of 1.26 shows variation in experience across customer segments.
+Finally, customer satisfaction scores range from 1 (low) to 5 (high), with an average of 3.19. This moderate central tendency suggests generally neutral-to-positive feedback, but with room for improvement. The distribution’s standard deviation of 1.26 shows variation in experience across customer segments.
 
 ## Summary Statistics: Categorical Variables
 
@@ -271,7 +274,7 @@ avg_credit_limit = merged_df["Credit_Limit"].mean()
 print("Average Credit Limit:", round(avg_credit_limit, 2))
 ```
 
-On average, each customer has access to about $8,635 in credit. This reflects the institution's credit allocation strategy and risk tolerance. Comparing this with income, the average credit limit is approximately 15% of the average annual income, suggesting a conservative credit extension policy.
+On average, each customer has access to about $8,635 in credit. This reflects the institution’s credit allocation strategy and risk tolerance. Comparing this with income, the average credit limit is approximately 15% of the average annual income, suggesting a conservative credit extension policy.
 
 ```{python}
 #| echo: false
@@ -280,7 +283,7 @@ avg_score = merged_df["Cust_Satisfaction_Score"].mean()
 print("Average Satisfaction Score:", round(avg_score, 2))
 ```
 
-The satisfaction score indicates a moderate level of customer satisfaction, slightly above neutral. A score of 3.19 implies that while many customers are relatively content, there's still room for improvement in service delivery, credit products, or customer support.
+The satisfaction score indicates a moderate level of customer satisfaction, slightly above neutral. A score of 3.19 implies that while many customers are relatively content, there’s still room for improvement in service delivery, credit products, or customer support.
 
 Add median income, median credit limit, or mode for most common card type.
 
@@ -1018,7 +1021,215 @@ fig.write_html(os.path.join(results_dir, 'Customer_Count_by_Satisfaction_Bar.htm
 fig.show()
 ```
 
-This chart shows how many customers fall into different satisfaction levels (1-5). It's important for customer experience evaluation and service improvement.
+This chart shows how many customers fall into different satisfaction levels (1-5). It’s important for customer experience evaluation and service improvement.
+Most customers cluster around mid-range satisfaction (scores 3–4), with ~2099–3088 customers.
+Fewer extremes (very satisfied/dissatisfied).
+
+Implication: Service improvements could target mid-range scorers to boost loyalty.
+
+## Customer Occupation Breakdown
+
+```{python}
+#| echo: false
+#| output: false
+job_df = merged_df.groupby('Customer_Job')['Client_Num'].count().reset_index(name='customer_count')
+job_df = job_df.sort_values(by='customer_count', ascending=False)
+job_df
+```
+
+```{python}
+#| echo: false
+#| output: false
+total_jobs = job_df['customer_count'].sum()
+job_df['percentage'] = (job_df['customer_count'] / total_jobs) * 100
+job_df
+```
+
+```{python}
+fig = px.bar(
+    job_df,
+    x='Customer_Job',
+    y='percentage',
+    title='Customer Occupation Breakdown (%)',
+    height=700,
+    width=1100,
+    color_discrete_sequence=['#002366'],
+    text='percentage'
+)
+
+fig.update_layout(
+    template="presentation",
+    xaxis_title="Customer Job",
+    yaxis_title="Percentage of Customers",
+    bargap=0.4,
+    bargroupgap=0.2,
+    margin=dict(l=60, r=50, t=50, b=150),
+    paper_bgcolor="rgba(0,0,0,0)",
+    plot_bgcolor="rgba(0,0,0,0)",
+    xaxis=dict(showgrid=False),
+    yaxis=dict(showgrid=False)
+)
+
+fig.update_traces(
+    texttemplate="%{text:.2f}%",
+    textposition="outside",
+    marker_line_width=0
+)
+
+fig.write_image(os.path.join(results_dir, 'Customer_Job_Breakdown.jpg'))
+fig.write_image(os.path.join(results_dir, 'Customer_Job_Breakdown.png'))
+fig.write_html(os.path.join(results_dir, 'Customer_Job_Breakdown.html'))
+
+fig.show()
+```
+
+This chart presents the percentage distribution of customers across different job types. It helps in profiling the customer base and targeting services based on occupation-related income stability
+Top occupations: "SelfEmployed" (25.47%), BusinessMan (18.81%), blue-collar (15.62%).
+
+ bargap=0.4,
+    bargroupgap=0.2,
+    margin=dict(l=60, r=50, t=50, b=150),
+    paper_bgcolor="rgba(0,0,0,0)",
+    plot_bgcolor="rgba(0,0,0,0)",
+    xaxis=dict(showgrid=False),
+    yaxis=dict(showgrid=False)
+)
+
+fig.update_traces(
+    texttemplate="%{text:.2f}%",
+    textposition="outside",
+    marker_line_width=0
+)
+
+fig.write_image(os.path.join(results_dir, 'Spending_by_Expense_Type.jpg'))
+fig.write_image(os.path.join(results_dir, 'Spending_by_Expense_Type.png'))
+fig.write_html(os.path.join(results_dir, 'Spending_by_Expense_Type.html'))
+
+fig.show()
+```
+
+This chart breaks down total spending into categories like groceries, travel, or bills. It provides insights into where customers spend most of their money and can guide product recommendations.
+Bills and Entertainment likely dominate (exact percentages unclear due to missing labels).
+
+Implication: Essential expenses (Bills/Entertainment) are primary spending drivers.
+
+## Delinquent Accounts by State 
+
+```{python}
+#| echo: false
+#| output: false
+delinq_by_state = merged_df.groupby('state_cd')['Delinquent_Acc'].sum().reset_index(name='total_delinquent')
+delinq_by_state = delinq_by_state.sort_values(by='total_delinquent', ascending=False)
+delinq_by_state
+```
+
+```{python}
+#| echo: false
+#| output: false
+total_delinq = delinq_by_state['total_delinquent'].sum()
+delinq_by_state['percentage'] = (delinq_by_state['total_delinquent'] / total_delinq) * 100
+delinq_by_state
+```
+
+```{python}
+num = 10
+delinq_by_states =  delinq_by_state.head(num)
+
+fig = px.bar(
+    delinq_by_states,
+    x='total_delinquent',
+    y='state_cd',
+    orientation='h',
+    title = f'Top {num} Delinquent Accounts by State',
+    height=700,
+    width=1100,
+    color_discrete_sequence=['#002366'],
+    text='total_delinquent'
+)
+
+fig.update_layout(
+    template="presentation",
+    xaxis_title='Number of Delinquent Accounts',
+    yaxis_title='State',
+    margin=dict(l=250, r=50, t=50, b=50),
+    paper_bgcolor="rgba(0,0,0,0)",
+    plot_bgcolor="rgba(0,0,0,0)",
+    xaxis=dict(showgrid=False),
+    yaxis=dict(showgrid=False)
+)
+
+fig.update_traces(textposition='inside')
+fig.write_image(os.path.join(results_dir, 'Delinquent_Accounts_by_State.jpg'))
+fig.write_image(os.path.join(results_dir, 'Delinquent_Accounts_by_State.png'))
+fig.write_html(os.path.join(results_dir, 'Delinquent_Accounts_by_State.html'))
+
+fig.show()
+```
+
+This bar chart highlights the states with the most delinquent accounts. It is useful for regional risk assessment and credit policy adjustments.
+Ney York (154), California (145), and Texas (144) lead in delinquencies.
+
+Implication: Higher-risk regions may need targeted collection strategies.
+
+## Customer Count by Satisfaction Level
+
+```{python}
+#| echo: false
+#| output: false
+funnel_df = merged_df.groupby('Cust_Satisfaction_Score')['Client_Num'].count().reset_index(name='customer_count')
+funnel_df = funnel_df.sort_values(by='customer_count', ascending=False)
+funnel_df
+```
+
+```{python}
+#| echo: false
+#| output: false
+total_customers = funnel_df['customer_count'].sum()
+funnel_df['percentage'] = (funnel_df['customer_count'] / total_customers) * 100
+funnel_df
+```
+
+```{python}
+import plotly.express as px
+
+# Group and sort
+bar_df = merged_df.groupby('Cust_Satisfaction_Score')['Client_Num'].count().reset_index(name='customer_count')
+bar_df = bar_df.sort_values(by='customer_count', ascending = False)
+
+# Plot
+fig = px.bar(
+    bar_df,
+    x='Cust_Satisfaction_Score',
+    y='customer_count',
+    text='customer_count',
+    title='Customer Count by Satisfaction Level',
+    labels={'Cust_Satisfaction_Score': 'Satisfaction Score', 'customer_count': 'Number of Customers'},
+    color_discrete_sequence=["#002366"]
+)
+
+fig.update_traces(textposition='outside')
+fig.update_layout(
+    template="presentation",
+    bargap=0.4,
+    bargroupgap=0.2, 
+    margin=dict(l=60, r=50, t=50, b=150),
+    paper_bgcolor="rgba(0,0,0,0)",
+    plot_bgcolor="rgba(0,0,0,0)",
+    height=700,
+    width=1100,
+    xaxis=dict(showgrid=False),
+    yaxis=dict(showgrid=False)
+)
+
+# Save
+fig.write_image(os.path.join(results_dir, 'Customer_Count_by_Satisfaction_Bar.jpg'))
+fig.write_image(os.path.join(results_dir, 'Customer_Count_by_Satisfaction_Bar.png'))
+fig.write_html(os.path.join(results_dir, 'Customer_Count_by_Satisfaction_Bar.html'))
+
+fig.show()
+```
+
+This chart shows how many customers fall into different satisfaction levels (1-5). It’s important for customer experience evaluation and service improvement.
 Most customers cluster around mid-range satisfaction (scores 3–4), with ~2099–3088 customers.
 Fewer extremes (very satisfied/dissatisfied).
 

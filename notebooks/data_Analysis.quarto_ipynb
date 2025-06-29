@@ -52,9 +52,9 @@
         "\n",
         "warnings: to suppress unnecessary runtime warnings for cleaner outputs.\n",
         "\n",
-        "This notebook lays the foundation for deeper statistical modeling and dashboard reporting by providing a clear and structured view of the data's characteristics and trends."
+        "This notebook lays the foundation for deeper statistical modeling and dashboard reporting by providing a clear and structured view of the data’s characteristics and trends."
       ],
-      "id": "d3906add"
+      "id": "9e2c2664"
     },
     {
       "cell_type": "code",
@@ -68,7 +68,7 @@
         "import seaborn as sns\n",
         "import matplotlib.pyplot as plt"
       ],
-      "id": "01a8d1ba",
+      "id": "7d945c67",
       "execution_count": null,
       "outputs": []
     },
@@ -87,7 +87,7 @@
         "\n",
         "These directories will store intermediate and final outputs for reproducibility."
       ],
-      "id": "2ecf0c9d"
+      "id": "ada78adb"
     },
     {
       "cell_type": "code",
@@ -113,7 +113,7 @@
         "os.makedirs(results_dir, exist_ok=True)\n",
         "os.makedirs(docs_dir, exist_ok=True)"
       ],
-      "id": "72c65d23",
+      "id": "9df9e013",
       "execution_count": null,
       "outputs": []
     },
@@ -126,9 +126,11 @@
         "\n",
         "The first ten records are displayed using the `head(5)` function to provide a preview of key columns such as `Client_Num`, `Card_Category`, `Annual_Fees`, `Credit_Limit`, `Total_Trans_Amt`, `Cust_Satisfaction_Score`.... This initial view helps confirm successful loading and gives a quick look at the structure and content of the cleaned dataset.\n",
         "\n",
-        "## Output"
+        "\n",
+        "::: {.panel-tabset}\n",
+        "## Output {.active}"
       ],
-      "id": "aaa91e27"
+      "id": "c03d2c63"
     },
     {
       "cell_type": "code",
@@ -151,7 +153,7 @@
       "source": [
         "## Code"
       ],
-      "id": "3a4d4ee2"
+      "id": "f29bf765"
     },
     {
       "cell_type": "code",
@@ -161,9 +163,17 @@
         "merged_data_filename = os.path.join(processed_dir, \"Credit_Card_Financial.csv\")\n",
         "merged_df = pd.read_csv(merged_data_filename)"
       ],
-      "id": "75d55a38",
+      "id": "584f4ad8",
       "execution_count": null,
       "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        ":::"
+      ],
+      "id": "45d30c45"
     },
     {
       "cell_type": "code",
@@ -173,7 +183,7 @@
         "#| echo: false\n",
         "merged_df.columns"
       ],
-      "id": "5af4846a",
+      "id": "50473c9e",
       "execution_count": null,
       "outputs": []
     },
@@ -190,7 +200,7 @@
         "\n",
         "Understanding data types and null entries is essential before proceeding with analysis."
       ],
-      "id": "1858daf4"
+      "id": "587c19bd"
     },
     {
       "cell_type": "code",
@@ -200,7 +210,7 @@
         "#| output: false\n",
         "merged_df.shape"
       ],
-      "id": "ee6e712e",
+      "id": "7b9953a6",
       "execution_count": null,
       "outputs": []
     },
@@ -212,7 +222,7 @@
         "#| output: false\n",
         "merged_df.info"
       ],
-      "id": "413ea7a0",
+      "id": "cfe7f486",
       "execution_count": null,
       "outputs": []
     },
@@ -239,7 +249,7 @@
       "source": [
         "## Summary Statistics: Numerical Variables"
       ],
-      "id": "3e6e50ef"
+      "id": "38a954e1"
     },
     {
       "cell_type": "code",
@@ -281,11 +291,11 @@
         "\n",
         "Income is perhaps the most skewed feature. It spans from $1,250 to $239,791, with a mean of $56,976 and median near $44,768. This implies income inequality in the sample, with a small number of high earners pulling up the average. The majority earn below $76K, with a significant concentration in the lower brackets.\n",
         "\n",
-        "Finally, customer satisfaction scores range from 1 (low) to 5 (high), with an average of 3.19. This moderate central tendency suggests generally neutral-to-positive feedback, but with room for improvement. The distribution's standard deviation of 1.26 shows variation in experience across customer segments.\n",
+        "Finally, customer satisfaction scores range from 1 (low) to 5 (high), with an average of 3.19. This moderate central tendency suggests generally neutral-to-positive feedback, but with room for improvement. The distribution’s standard deviation of 1.26 shows variation in experience across customer segments.\n",
         "\n",
         "## Summary Statistics: Categorical Variables"
       ],
-      "id": "a0a80e9f"
+      "id": "8f5da328"
     },
     {
       "cell_type": "code",
@@ -307,7 +317,7 @@
       "source": [
         "`Gender`"
       ],
-      "id": "68945e1a"
+      "id": "776eda42"
     },
     {
       "cell_type": "code",
@@ -329,7 +339,7 @@
         "\n",
         "`Card_Category`"
       ],
-      "id": "9a11eae1"
+      "id": "47dd9ea3"
     },
     {
       "cell_type": "code",
@@ -352,7 +362,7 @@
         "\n",
         "`Marital_Status`"
       ],
-      "id": "64721a7f"
+      "id": "5f5a4b70"
     },
     {
       "cell_type": "code",
@@ -375,7 +385,7 @@
         "\n",
         "`Education_Level`"
       ],
-      "id": "fa76bcd3"
+      "id": "88a72fb5"
     },
     {
       "cell_type": "code",
@@ -398,7 +408,7 @@
         "\n",
         "`Cust_Satisfaction_Score`"
       ],
-      "id": "f9bf063f"
+      "id": "2ead2e46"
     },
     {
       "cell_type": "code",
@@ -421,7 +431,7 @@
         "\n",
         "##  Key Insights"
       ],
-      "id": "2851be1c"
+      "id": "26ed960b"
     },
     {
       "cell_type": "code",
@@ -432,7 +442,7 @@
         "average_income = merged_df[\"Income\"].mean()\n",
         "print(\"Average Income:\", round(average_income, 2))"
       ],
-      "id": "fba84397",
+      "id": "036abe75",
       "execution_count": null,
       "outputs": []
     },
@@ -442,7 +452,7 @@
       "source": [
         "This indicates that on average, customers in the dataset earn around $56,976 annually. This relatively moderate income level suggests a mostly middle-income customer base. Financial institutions can use this figure to tailor credit products and services that align with average earning capacity."
       ],
-      "id": "6ce87622"
+      "id": "3a82a4e8"
     },
     {
       "cell_type": "code",
@@ -453,7 +463,7 @@
         "total_customers = merged_df[\"Client_Num\"].nunique()\n",
         "print(\"Total Customers:\", total_customers)"
       ],
-      "id": "7ece8e32",
+      "id": "f25f92c3",
       "execution_count": null,
       "outputs": []
     },
@@ -463,7 +473,7 @@
       "source": [
         "The dataset contains information on 10,108 customers, offering a substantial sample size for analysis. This ensures a diverse representation of demographics, occupations, and behaviors, making any derived patterns or trends more reliable and insightful for business decisions."
       ],
-      "id": "ed7962e8"
+      "id": "da774f1f"
     },
     {
       "cell_type": "code",
@@ -474,7 +484,7 @@
         "avg_credit_limit = merged_df[\"Credit_Limit\"].mean()\n",
         "print(\"Average Credit Limit:\", round(avg_credit_limit, 2))"
       ],
-      "id": "a07c656c",
+      "id": "cfe55870",
       "execution_count": null,
       "outputs": []
     },
@@ -482,9 +492,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "On average, each customer has access to about $8,635 in credit. This reflects the institution's credit allocation strategy and risk tolerance. Comparing this with income, the average credit limit is approximately 15% of the average annual income, suggesting a conservative credit extension policy."
+        "On average, each customer has access to about $8,635 in credit. This reflects the institution’s credit allocation strategy and risk tolerance. Comparing this with income, the average credit limit is approximately 15% of the average annual income, suggesting a conservative credit extension policy."
       ],
-      "id": "9fc40454"
+      "id": "d5f90ab8"
     },
     {
       "cell_type": "code",
@@ -495,7 +505,7 @@
         "avg_score = merged_df[\"Cust_Satisfaction_Score\"].mean()\n",
         "print(\"Average Satisfaction Score:\", round(avg_score, 2))"
       ],
-      "id": "9953a6fe",
+      "id": "e5bc077b",
       "execution_count": null,
       "outputs": []
     },
@@ -503,11 +513,11 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "The satisfaction score indicates a moderate level of customer satisfaction, slightly above neutral. A score of 3.19 implies that while many customers are relatively content, there's still room for improvement in service delivery, credit products, or customer support.\n",
+        "The satisfaction score indicates a moderate level of customer satisfaction, slightly above neutral. A score of 3.19 implies that while many customers are relatively content, there’s still room for improvement in service delivery, credit products, or customer support.\n",
         "\n",
         "Add median income, median credit limit, or mode for most common card type."
       ],
-      "id": "a6b4e931"
+      "id": "c773934f"
     },
     {
       "cell_type": "code",
@@ -518,7 +528,7 @@
         "print(\"Median Income:\", merged_df[\"Income\"].median())\n",
         "print(\"Mode Card Type:\", merged_df[\"Card_Category\"].mode()[0])"
       ],
-      "id": "d1e4c6c7",
+      "id": "74975eed",
       "execution_count": null,
       "outputs": []
     },
@@ -532,7 +542,7 @@
         "\n",
         "**Do men and women have different average credit limits?**"
       ],
-      "id": "92940981"
+      "id": "8c45b196"
     },
     {
       "cell_type": "code",
@@ -547,7 +557,7 @@
         "t_stat, p_val = ttest_ind(men, women, nan_policy='omit')\n",
         "print(\"p-value:\", p_val)"
       ],
-      "id": "d65d67f9",
+      "id": "384bd9e6",
       "execution_count": null,
       "outputs": []
     },
@@ -581,7 +591,7 @@
         "\n",
         "## relationships between numerical variables "
       ],
-      "id": "86c3b46f"
+      "id": "904111c3"
     },
     {
       "cell_type": "code",
@@ -592,7 +602,7 @@
         "corr = merged_df[['Income', 'Credit_Limit', 'Total_Trans_Amt', 'Annual_Fees']].corr()\n",
         "print(corr)"
       ],
-      "id": "2c535b39",
+      "id": "9452aa4f",
       "execution_count": null,
       "outputs": []
     },
@@ -606,7 +616,7 @@
         "plt.savefig(os.path.join(results_dir, 'Correlation_Matrix_Heatmap.png'))\n",
         "plt.show()"
       ],
-      "id": "f9208d36",
+      "id": "89c598b1",
       "execution_count": null,
       "outputs": []
     },
@@ -643,7 +653,7 @@
         "\n",
         "## check if distributions are normal"
       ],
-      "id": "9eb649cf"
+      "id": "e0c199a5"
     },
     {
       "cell_type": "code",
@@ -656,7 +666,7 @@
         "print(\"Skewness:\", skew(merged_df[\"Credit_Limit\"].dropna()))\n",
         "print(\"Kurtosis:\", kurtosis(merged_df[\"Credit_Limit\"].dropna()))"
       ],
-      "id": "89ef2e16",
+      "id": "1ec6984e",
       "execution_count": null,
       "outputs": []
     },
@@ -693,7 +703,7 @@
         "\n",
         "## Gender Distribution"
       ],
-      "id": "6885b963"
+      "id": "f96ff3c4"
     },
     {
       "cell_type": "code",
@@ -704,7 +714,7 @@
         "merged_df_gender = merged_df.groupby('Gender').size().reset_index(name='total')\n",
         "merged_df_gender"
       ],
-      "id": "275ac164",
+      "id": "c9d33229",
       "execution_count": null,
       "outputs": []
     },
@@ -734,7 +744,7 @@
         "fig.write_image(os.path.join(results_dir, 'Gender_Distribution_Pie_Chart.png'))\n",
         "fig.write_html(os.path.join(results_dir, 'Gender_Distribution_Pie_Chart.html'))"
       ],
-      "id": "783dbb5d",
+      "id": "5a57e582",
       "execution_count": null,
       "outputs": []
     },
@@ -746,7 +756,7 @@
         "\n",
         "**Credit Limit by Gender**"
       ],
-      "id": "ff91cb34"
+      "id": "1b745a24"
     },
     {
       "cell_type": "code",
@@ -763,7 +773,7 @@
         "plt.savefig(os.path.join(results_dir, 'Credit_Limit_Boxplot.png'))\n",
         "plt.show()"
       ],
-      "id": "a81a1b04",
+      "id": "f6cc1a94",
       "execution_count": null,
       "outputs": []
     },
@@ -786,7 +796,7 @@
         "\n",
         "## Income by Education Level"
       ],
-      "id": "011f6f4d"
+      "id": "24e855a2"
     },
     {
       "cell_type": "code",
@@ -797,7 +807,7 @@
         "merged_df_income_edlevel = merged_df.groupby('Education_Level')['Income'].mean().reset_index(name='average_income').sort_values(by='average_income', ascending=False)\n",
         "merged_df_income_edlevel"
       ],
-      "id": "3afc2998",
+      "id": "a03cb07c",
       "execution_count": null,
       "outputs": []
     },
@@ -812,7 +822,7 @@
         "merged_df_income_edlevel = merged_df_income_edlevel.sort_values(by='Education_Level', ascending=False)\n",
         "merged_df_income_edlevel"
       ],
-      "id": "5207c5c4",
+      "id": "288d1486",
       "execution_count": null,
       "outputs": []
     },
@@ -858,7 +868,7 @@
         "\n",
         "fig.show()"
       ],
-      "id": "835ce549",
+      "id": "0c9b9c90",
       "execution_count": null,
       "outputs": []
     },
@@ -870,7 +880,7 @@
         "\n",
         "## Customers by Marital Status"
       ],
-      "id": "5581ace3"
+      "id": "3105c508"
     },
     {
       "cell_type": "code",
@@ -883,7 +893,7 @@
         "marital_status_df = marital_status_df.sort_values(by='total_customers', ascending=False)\n",
         "marital_status_df"
       ],
-      "id": "173a2e27",
+      "id": "07ba25e0",
       "execution_count": null,
       "outputs": []
     },
@@ -897,7 +907,7 @@
         "marital_status_df['percentage'] = (marital_status_df['total_customers'] / total) * 100\n",
         "marital_status_df"
       ],
-      "id": "a3ccc754",
+      "id": "9d3c2395",
       "execution_count": null,
       "outputs": []
     },
@@ -943,7 +953,7 @@
         "\n",
         "fig.show()"
       ],
-      "id": "c171a013",
+      "id": "83163899",
       "execution_count": null,
       "outputs": []
     },
@@ -955,7 +965,7 @@
         "\n",
         "## Average Credit Limit by Card Type"
       ],
-      "id": "eb590309"
+      "id": "d82727db"
     },
     {
       "cell_type": "code",
@@ -967,7 +977,7 @@
         "avg_credit_by_card = avg_credit_by_card.sort_values(by='average_credit_limit', ascending=False)\n",
         "avg_credit_by_card"
       ],
-      "id": "8e87265b",
+      "id": "c2612ced",
       "execution_count": null,
       "outputs": []
     },
@@ -981,7 +991,7 @@
         "avg_credit_by_card['percentage'] = (avg_credit_by_card['average_credit_limit'] / total_credit) * 100\n",
         "avg_credit_by_card"
       ],
-      "id": "f6a267c5",
+      "id": "49828176",
       "execution_count": null,
       "outputs": []
     },
@@ -1028,7 +1038,7 @@
         "\n",
         "fig.show()"
       ],
-      "id": "d3fc3519",
+      "id": "0ed00ca0",
       "execution_count": null,
       "outputs": []
     },
@@ -1043,7 +1053,7 @@
         "\n",
         "## Average Interest Earned per Card Type"
       ],
-      "id": "b7e26566"
+      "id": "bf4d3e44"
     },
     {
       "cell_type": "code",
@@ -1055,7 +1065,7 @@
         "avg_interest_by_card = avg_interest_by_card.sort_values(by='average_interest', ascending=False)\n",
         "avg_interest_by_card"
       ],
-      "id": "73232219",
+      "id": "e8bf42a9",
       "execution_count": null,
       "outputs": []
     },
@@ -1069,7 +1079,7 @@
         "avg_interest_by_card['percentage'] = (avg_interest_by_card['average_interest'] / total_interest) * 100\n",
         "avg_interest_by_card"
       ],
-      "id": "6f38eab9",
+      "id": "912610ca",
       "execution_count": null,
       "outputs": []
     },
@@ -1114,7 +1124,7 @@
         "\n",
         "fig.show()"
       ],
-      "id": "eeca9ead",
+      "id": "58c4e706",
       "execution_count": null,
       "outputs": []
     },
@@ -1130,7 +1140,7 @@
         "\n",
         "## Usage Mode vs Total Spend"
       ],
-      "id": "8e8dbb25"
+      "id": "c526616a"
     },
     {
       "cell_type": "code",
@@ -1142,7 +1152,7 @@
         "usage_vs_spend = usage_vs_spend.sort_values(by='total_spend', ascending=True)\n",
         "usage_vs_spend"
       ],
-      "id": "3c51d916",
+      "id": "a85d79c9",
       "execution_count": null,
       "outputs": []
     },
@@ -1156,7 +1166,7 @@
         "usage_vs_spend['percentage'] = (usage_vs_spend['total_spend'] / total_spend_sum) * 100\n",
         "usage_vs_spend"
       ],
-      "id": "396011be",
+      "id": "470ed252",
       "execution_count": null,
       "outputs": []
     },
@@ -1202,7 +1212,7 @@
         "\n",
         "fig.show()"
       ],
-      "id": "42394d8c",
+      "id": "27e0491d",
       "execution_count": null,
       "outputs": []
     },
@@ -1217,7 +1227,7 @@
         "\n",
         "## Total Transaction Amount Over Time"
       ],
-      "id": "57121e16"
+      "id": "1ec52854"
     },
     {
       "cell_type": "code",
@@ -1229,7 +1239,7 @@
         "               'July', 'August', 'September', 'October', 'November', 'December']\n",
         "merged_df['Month'] = pd.Categorical(merged_df['Month'], categories=month_order, ordered=True)"
       ],
-      "id": "f5a26c1c",
+      "id": "c1d1b394",
       "execution_count": null,
       "outputs": []
     },
@@ -1243,7 +1253,7 @@
         "monthly_trans_amt = monthly_trans_amt.sort_values('Month')\n",
         "monthly_trans_amt"
       ],
-      "id": "0e3c4d1b",
+      "id": "d4441b97",
       "execution_count": null,
       "outputs": []
     },
@@ -1280,7 +1290,7 @@
         "\n",
         "fig.show()"
       ],
-      "id": "4734e42e",
+      "id": "0dc48020",
       "execution_count": null,
       "outputs": []
     },
@@ -1295,7 +1305,7 @@
         "\n",
         "## Spending by Expense Type "
       ],
-      "id": "144f00e0"
+      "id": "0bd8f22f"
     },
     {
       "cell_type": "code",
@@ -1307,7 +1317,7 @@
         "exp_type_spending = exp_type_spending.sort_values(by='total_customers', ascending=False)\n",
         "exp_type_spending"
       ],
-      "id": "0807e897",
+      "id": "db6d85ae",
       "execution_count": null,
       "outputs": []
     },
@@ -1321,7 +1331,7 @@
         "exp_type_spending['percentage'] = (exp_type_spending['total_customers'] / total_customers) * 100\n",
         "exp_type_spending"
       ],
-      "id": "c9f67898",
+      "id": "ce0e756b",
       "execution_count": null,
       "outputs": []
     },
@@ -1365,7 +1375,7 @@
         "\n",
         "fig.show()"
       ],
-      "id": "d776c9f5",
+      "id": "877836ae",
       "execution_count": null,
       "outputs": []
     },
@@ -1380,7 +1390,7 @@
         "\n",
         "## Delinquent Accounts by State "
       ],
-      "id": "5d522215"
+      "id": "3d2503cd"
     },
     {
       "cell_type": "code",
@@ -1392,7 +1402,7 @@
         "delinq_by_state = delinq_by_state.sort_values(by='total_delinquent', ascending=False)\n",
         "delinq_by_state"
       ],
-      "id": "9d39cbbe",
+      "id": "9bcc79a6",
       "execution_count": null,
       "outputs": []
     },
@@ -1406,7 +1416,7 @@
         "delinq_by_state['percentage'] = (delinq_by_state['total_delinquent'] / total_delinq) * 100\n",
         "delinq_by_state"
       ],
-      "id": "5d0d524d",
+      "id": "219fef8a",
       "execution_count": null,
       "outputs": []
     },
@@ -1447,7 +1457,7 @@
         "\n",
         "fig.show()"
       ],
-      "id": "25d1932d",
+      "id": "3f119a6f",
       "execution_count": null,
       "outputs": []
     },
@@ -1462,7 +1472,7 @@
         "\n",
         "## Customer Count by Satisfaction Level"
       ],
-      "id": "413ea170"
+      "id": "5e31ff14"
     },
     {
       "cell_type": "code",
@@ -1474,7 +1484,7 @@
         "funnel_df = funnel_df.sort_values(by='customer_count', ascending=False)\n",
         "funnel_df"
       ],
-      "id": "884b8a29",
+      "id": "b3ad2bdb",
       "execution_count": null,
       "outputs": []
     },
@@ -1488,7 +1498,7 @@
         "funnel_df['percentage'] = (funnel_df['customer_count'] / total_customers) * 100\n",
         "funnel_df"
       ],
-      "id": "f3923e05",
+      "id": "35eae7bb",
       "execution_count": null,
       "outputs": []
     },
@@ -1534,7 +1544,7 @@
         "\n",
         "fig.show()"
       ],
-      "id": "afea352c",
+      "id": "64a4f88e",
       "execution_count": null,
       "outputs": []
     },
@@ -1542,7 +1552,7 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "This chart shows how many customers fall into different satisfaction levels (1-5). It's important for customer experience evaluation and service improvement.\n",
+        "This chart shows how many customers fall into different satisfaction levels (1-5). It’s important for customer experience evaluation and service improvement.\n",
         "Most customers cluster around mid-range satisfaction (scores 3–4), with ~2099–3088 customers.\n",
         "Fewer extremes (very satisfied/dissatisfied).\n",
         "\n",
@@ -1550,7 +1560,7 @@
         "\n",
         "## Customer Occupation Breakdown"
       ],
-      "id": "961bca67"
+      "id": "47e0b734"
     },
     {
       "cell_type": "code",
@@ -1562,7 +1572,7 @@
         "job_df = job_df.sort_values(by='customer_count', ascending=False)\n",
         "job_df"
       ],
-      "id": "8db464d0",
+      "id": "3bc13c0a",
       "execution_count": null,
       "outputs": []
     },
@@ -1576,7 +1586,7 @@
         "job_df['percentage'] = (job_df['customer_count'] / total_jobs) * 100\n",
         "job_df"
       ],
-      "id": "9f13f717",
+      "id": "b11ea021",
       "execution_count": null,
       "outputs": []
     },
@@ -1620,7 +1630,287 @@
         "\n",
         "fig.show()"
       ],
-      "id": "d8c0c7b7",
+      "id": "8f0d4104",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "This chart presents the percentage distribution of customers across different job types. It helps in profiling the customer base and targeting services based on occupation-related income stability\n",
+        "Top occupations: \"SelfEmployed\" (25.47%), BusinessMan (18.81%), blue-collar (15.62%).\n",
+        "\n",
+        " bargap=0.4,\n",
+        "    bargroupgap=0.2,\n",
+        "    margin=dict(l=60, r=50, t=50, b=150),\n",
+        "    paper_bgcolor=\"rgba(0,0,0,0)\",\n",
+        "    plot_bgcolor=\"rgba(0,0,0,0)\",\n",
+        "    xaxis=dict(showgrid=False),\n",
+        "    yaxis=dict(showgrid=False)\n",
+        ")\n",
+        "\n",
+        "fig.update_traces(\n",
+        "    texttemplate=\"%{text:.2f}%\",\n",
+        "    textposition=\"outside\",\n",
+        "    marker_line_width=0\n",
+        ")\n",
+        "\n",
+        "fig.write_image(os.path.join(results_dir, 'Spending_by_Expense_Type.jpg'))\n",
+        "fig.write_image(os.path.join(results_dir, 'Spending_by_Expense_Type.png'))\n",
+        "fig.write_html(os.path.join(results_dir, 'Spending_by_Expense_Type.html'))\n",
+        "\n",
+        "fig.show()\n",
+        "```\n",
+        "\n",
+        "This chart breaks down total spending into categories like groceries, travel, or bills. It provides insights into where customers spend most of their money and can guide product recommendations.\n",
+        "Bills and Entertainment likely dominate (exact percentages unclear due to missing labels).\n",
+        "\n",
+        "Implication: Essential expenses (Bills/Entertainment) are primary spending drivers.\n",
+        "\n",
+        "## Delinquent Accounts by State "
+      ],
+      "id": "9a5618b9"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| echo: false\n",
+        "#| output: false\n",
+        "delinq_by_state = merged_df.groupby('state_cd')['Delinquent_Acc'].sum().reset_index(name='total_delinquent')\n",
+        "delinq_by_state = delinq_by_state.sort_values(by='total_delinquent', ascending=False)\n",
+        "delinq_by_state"
+      ],
+      "id": "1539e091",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| echo: false\n",
+        "#| output: false\n",
+        "total_delinq = delinq_by_state['total_delinquent'].sum()\n",
+        "delinq_by_state['percentage'] = (delinq_by_state['total_delinquent'] / total_delinq) * 100\n",
+        "delinq_by_state"
+      ],
+      "id": "db5d6cce",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "num = 10\n",
+        "delinq_by_states =  delinq_by_state.head(num)\n",
+        "\n",
+        "fig = px.bar(\n",
+        "    delinq_by_states,\n",
+        "    x='total_delinquent',\n",
+        "    y='state_cd',\n",
+        "    orientation='h',\n",
+        "    title = f'Top {num} Delinquent Accounts by State',\n",
+        "    height=700,\n",
+        "    width=1100,\n",
+        "    color_discrete_sequence=['#002366'],\n",
+        "    text='total_delinquent'\n",
+        ")\n",
+        "\n",
+        "fig.update_layout(\n",
+        "    template=\"presentation\",\n",
+        "    xaxis_title='Number of Delinquent Accounts',\n",
+        "    yaxis_title='State',\n",
+        "    margin=dict(l=250, r=50, t=50, b=50),\n",
+        "    paper_bgcolor=\"rgba(0,0,0,0)\",\n",
+        "    plot_bgcolor=\"rgba(0,0,0,0)\",\n",
+        "    xaxis=dict(showgrid=False),\n",
+        "    yaxis=dict(showgrid=False)\n",
+        ")\n",
+        "\n",
+        "fig.update_traces(textposition='inside')\n",
+        "fig.write_image(os.path.join(results_dir, 'Delinquent_Accounts_by_State.jpg'))\n",
+        "fig.write_image(os.path.join(results_dir, 'Delinquent_Accounts_by_State.png'))\n",
+        "fig.write_html(os.path.join(results_dir, 'Delinquent_Accounts_by_State.html'))\n",
+        "\n",
+        "fig.show()"
+      ],
+      "id": "eacf3f20",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "This bar chart highlights the states with the most delinquent accounts. It is useful for regional risk assessment and credit policy adjustments.\n",
+        "Ney York (154), California (145), and Texas (144) lead in delinquencies.\n",
+        "\n",
+        "Implication: Higher-risk regions may need targeted collection strategies.\n",
+        "\n",
+        "## Customer Count by Satisfaction Level"
+      ],
+      "id": "408313a9"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| echo: false\n",
+        "#| output: false\n",
+        "funnel_df = merged_df.groupby('Cust_Satisfaction_Score')['Client_Num'].count().reset_index(name='customer_count')\n",
+        "funnel_df = funnel_df.sort_values(by='customer_count', ascending=False)\n",
+        "funnel_df"
+      ],
+      "id": "31080996",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| echo: false\n",
+        "#| output: false\n",
+        "total_customers = funnel_df['customer_count'].sum()\n",
+        "funnel_df['percentage'] = (funnel_df['customer_count'] / total_customers) * 100\n",
+        "funnel_df"
+      ],
+      "id": "ce918404",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import plotly.express as px\n",
+        "\n",
+        "# Group and sort\n",
+        "bar_df = merged_df.groupby('Cust_Satisfaction_Score')['Client_Num'].count().reset_index(name='customer_count')\n",
+        "bar_df = bar_df.sort_values(by='customer_count', ascending = False)\n",
+        "\n",
+        "# Plot\n",
+        "fig = px.bar(\n",
+        "    bar_df,\n",
+        "    x='Cust_Satisfaction_Score',\n",
+        "    y='customer_count',\n",
+        "    text='customer_count',\n",
+        "    title='Customer Count by Satisfaction Level',\n",
+        "    labels={'Cust_Satisfaction_Score': 'Satisfaction Score', 'customer_count': 'Number of Customers'},\n",
+        "    color_discrete_sequence=[\"#002366\"]\n",
+        ")\n",
+        "\n",
+        "fig.update_traces(textposition='outside')\n",
+        "fig.update_layout(\n",
+        "    template=\"presentation\",\n",
+        "    bargap=0.4,\n",
+        "    bargroupgap=0.2, \n",
+        "    margin=dict(l=60, r=50, t=50, b=150),\n",
+        "    paper_bgcolor=\"rgba(0,0,0,0)\",\n",
+        "    plot_bgcolor=\"rgba(0,0,0,0)\",\n",
+        "    height=700,\n",
+        "    width=1100,\n",
+        "    xaxis=dict(showgrid=False),\n",
+        "    yaxis=dict(showgrid=False)\n",
+        ")\n",
+        "\n",
+        "# Save\n",
+        "fig.write_image(os.path.join(results_dir, 'Customer_Count_by_Satisfaction_Bar.jpg'))\n",
+        "fig.write_image(os.path.join(results_dir, 'Customer_Count_by_Satisfaction_Bar.png'))\n",
+        "fig.write_html(os.path.join(results_dir, 'Customer_Count_by_Satisfaction_Bar.html'))\n",
+        "\n",
+        "fig.show()"
+      ],
+      "id": "c7fbc0ba",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "This chart shows how many customers fall into different satisfaction levels (1-5). It’s important for customer experience evaluation and service improvement.\n",
+        "Most customers cluster around mid-range satisfaction (scores 3–4), with ~2099–3088 customers.\n",
+        "Fewer extremes (very satisfied/dissatisfied).\n",
+        "\n",
+        "Implication: Service improvements could target mid-range scorers to boost loyalty.\n",
+        "\n",
+        "## Customer Occupation Breakdown"
+      ],
+      "id": "dbebf3f0"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| echo: false\n",
+        "#| output: false\n",
+        "job_df = merged_df.groupby('Customer_Job')['Client_Num'].count().reset_index(name='customer_count')\n",
+        "job_df = job_df.sort_values(by='customer_count', ascending=False)\n",
+        "job_df"
+      ],
+      "id": "44afec09",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| echo: false\n",
+        "#| output: false\n",
+        "total_jobs = job_df['customer_count'].sum()\n",
+        "job_df['percentage'] = (job_df['customer_count'] / total_jobs) * 100\n",
+        "job_df"
+      ],
+      "id": "74197e47",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "fig = px.bar(\n",
+        "    job_df,\n",
+        "    x='Customer_Job',\n",
+        "    y='percentage',\n",
+        "    title='Customer Occupation Breakdown (%)',\n",
+        "    height=700,\n",
+        "    width=1100,\n",
+        "    color_discrete_sequence=['#002366'],\n",
+        "    text='percentage'\n",
+        ")\n",
+        "\n",
+        "fig.update_layout(\n",
+        "    template=\"presentation\",\n",
+        "    xaxis_title=\"Customer Job\",\n",
+        "    yaxis_title=\"Percentage of Customers\",\n",
+        "    bargap=0.4,\n",
+        "    bargroupgap=0.2,\n",
+        "    margin=dict(l=60, r=50, t=50, b=150),\n",
+        "    paper_bgcolor=\"rgba(0,0,0,0)\",\n",
+        "    plot_bgcolor=\"rgba(0,0,0,0)\",\n",
+        "    xaxis=dict(showgrid=False),\n",
+        "    yaxis=dict(showgrid=False)\n",
+        ")\n",
+        "\n",
+        "fig.update_traces(\n",
+        "    texttemplate=\"%{text:.2f}%\",\n",
+        "    textposition=\"outside\",\n",
+        "    marker_line_width=0\n",
+        ")\n",
+        "\n",
+        "fig.write_image(os.path.join(results_dir, 'Customer_Job_Breakdown.jpg'))\n",
+        "fig.write_image(os.path.join(results_dir, 'Customer_Job_Breakdown.png'))\n",
+        "fig.write_html(os.path.join(results_dir, 'Customer_Job_Breakdown.html'))\n",
+        "\n",
+        "fig.show()"
+      ],
+      "id": "00de8010",
       "execution_count": null,
       "outputs": []
     },
@@ -1631,7 +1921,7 @@
         "This chart presents the percentage distribution of customers across different job types. It helps in profiling the customer base and targeting services based on occupation-related income stability\n",
         "Top occupations: \"SelfEmployed\" (25.47%), BusinessMan (18.81%), blue-collar (15.62%).\n"
       ],
-      "id": "d91a5e96"
+      "id": "176f45f4"
     }
   ],
   "metadata": {
