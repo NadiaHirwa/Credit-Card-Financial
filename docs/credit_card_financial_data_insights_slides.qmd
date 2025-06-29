@@ -1,0 +1,492 @@
+---
+title: "Credit Card Financial Data Insights"
+subtitle: "Comprehensive Analysis & Strategic Recommendations"
+author: "Nadia Iradukunda Hirwa & Jedidah Jah Uwiwe"
+date: "2025-06-30"
+format:
+  revealjs:
+    theme: default
+    transition: slide
+    navigation-mode: vertical
+    controls: true
+    controls-layout: bottom-right
+    controls-tutorial: true
+    slide-number: true
+    show-slide-number: all
+    code-fold: true
+    code-tools: true
+    highlight-style: github
+    fig-align: center
+    fig-cap-location: bottom
+    fig-responsive: true
+    self-contained: true
+    incremental: true
+execute:
+  echo: true
+  warning: false
+  message: false
+jupyter: python3
+---
+
+<style>
+.reveal .slides section {
+  font-size: 0.9em;
+}
+
+.reveal .slides h1 {
+  font-size: 1.8em;
+}
+
+.reveal .slides h2 {
+  font-size: 1.4em;
+}
+
+.reveal .slides h3 {
+  font-size: 1.2em;
+}
+
+.reveal .slides ul {
+  margin-left: 20px;
+}
+
+.reveal .slides li {
+  margin-bottom: 8px;
+}
+
+.reveal .slides .title-slide {
+  text-align: center;
+}
+
+.reveal .slides .title-slide h1 {
+  font-size: 2.2em;
+  margin-bottom: 0.5em;
+}
+
+.reveal .slides .title-slide h2 {
+  font-size: 1.6em;
+  margin-bottom: 1em;
+}
+</style>
+
+# Credit Card Financial Data Insights {.title-slide}
+
+## Comprehensive Analysis & Strategic Recommendations
+
+**Nadia Iradukunda Hirwa & Jedidah Jah Uwiwe**  
+*Junior Data Analysts*
+
+---
+
+## Agenda
+
+1. **Project Overview & Methodology**
+2. **Dataset Characteristics & Data Quality**
+3. **Key Statistical Findings**
+4. **Customer Demographics Analysis**
+5. **Financial Behavior Insights**
+6. **Risk Assessment & Satisfaction**
+7. **Data-Driven Recommendations**
+8. **Strategic Implementation Plan**
+
+---
+
+## Project Overview
+
+- **Dataset**: 10,108 credit card customers
+- **Variables**: 32 features (demographics, financial, behavioral)
+- **Time Period**: 2023 data
+- **Objective**: Uncover customer behavior patterns and business insights
+- **Tools**: Python, Pandas, Plotly, Statistical Analysis
+
+---
+
+## Methodology
+
+```{python}
+#| echo: true
+#| code-summary: "Data Loading and Setup"
+
+import os
+import pandas as pd
+import numpy as np
+import plotly.express as px
+import seaborn as sns
+import matplotlib.pyplot as plt
+from scipy.stats import ttest_ind, skew, kurtosis
+
+# Load the cleaned dataset
+merged_data_filename = os.path.join("..", "data", "processed", "Credit_Card_Financial.csv")
+merged_df = pd.read_csv(merged_data_filename)
+
+print(f"Dataset Shape: {merged_df.shape}")
+print(f"Total Customers: {merged_df['Client_Num'].nunique()}")
+```
+
+---
+
+## Dataset Characteristics
+
+- **Sample Size**: 10,108 customers
+- **Features**: 32 variables
+- **Data Quality**: Clean, merged dataset with no missing values
+- **Key Variable Categories**:
+  - Demographics (Age, Gender, Education, Marital Status)
+  - Financial (Income, Credit Limits, Transaction Amounts)
+  - Behavioral (Card Usage, Satisfaction Scores, Delinquency)
+
+---
+
+## Data Quality Assessment
+
+```{python}
+#| echo: true
+#| code-summary: "Data Quality Check"
+
+# Check for missing values
+missing_values = merged_df.isnull().sum()
+print("Missing Values Summary:")
+print(missing_values[missing_values > 0] if missing_values.sum() > 0 else "No missing values found")
+
+# Basic dataset info
+print(f"\nDataset Info:")
+print(f"Shape: {merged_df.shape}")
+print(f"Memory Usage: {merged_df.memory_usage(deep=True).sum() / 1024**2:.2f} MB")
+```
+
+---
+
+## Key Statistical Findings
+
+### Correlation Analysis Results
+
+```{python}
+#| echo: true
+#| code-summary: "Correlation Analysis"
+
+# Calculate correlations for key financial variables
+corr_vars = ['Income', 'Credit_Limit', 'Total_Trans_Amt', 'Annual_Fees']
+corr_matrix = merged_df[corr_vars].corr()
+
+print("Key Correlation Coefficients:")
+print(f"Income vs Total_Trans_Amt: {corr_matrix.loc['Income', 'Total_Trans_Amt']:.3f}")
+print(f"Income vs Credit_Limit: {corr_matrix.loc['Income', 'Credit_Limit']:.3f}")
+print(f"Credit_Limit vs Total_Trans_Amt: {corr_matrix.loc['Credit_Limit', 'Total_Trans_Amt']:.3f}")
+```
+
+---
+
+## Correlation Matrix Visualization
+
+```{python}
+#| echo: true
+#| fig-cap: "Correlation Matrix of Key Financial Variables"
+
+plt.figure(figsize=(5, 4))
+sns.heatmap(corr_matrix, annot=True, cmap='Blues', center=0, 
+            square=True, linewidths=0.5, cbar_kws={"shrink": .8})
+plt.title("Correlation Matrix of Key Financial Variables")
+plt.tight_layout()
+plt.show()
+```
+
+---
+
+## Distribution Analysis
+
+### Credit Limit Distribution Characteristics
+
+```{python}
+#| echo: true
+#| code-summary: "Distribution Analysis"
+
+# Calculate skewness and kurtosis
+credit_limit_skew = skew(merged_df["Credit_Limit"].dropna())
+credit_limit_kurt = kurtosis(merged_df["Credit_Limit"].dropna())
+
+print("Credit Limit Distribution Analysis:")
+print(f"Skewness: {credit_limit_skew:.3f} (Right-skewed if > 0)")
+print(f"Kurtosis: {credit_limit_kurt:.3f} (Heavy tails if > 0)")
+print(f"Mean: ${merged_df['Credit_Limit'].mean():,.0f}")
+print(f"Median: ${merged_df['Credit_Limit'].median():,.0f}")
+```
+
+---
+
+## Customer Demographics
+
+### Gender Distribution
+
+```{python}
+#| echo: true
+#| fig-cap: "Gender Distribution of Credit Card Customers"
+
+gender_dist = merged_df['Gender'].value_counts().reset_index()
+gender_dist.columns = ['Gender', 'Count']
+
+fig = px.pie(gender_dist, names='Gender', values='Count', 
+             title="Gender Distribution",
+             color_discrete_sequence=["#003399", "#3366cc"])
+
+fig.update_traces(texttemplate="%{percent:.1%}", textposition="inside")
+fig.update_layout(showlegend=True, margin=dict(l=60, r=50, t=50, b=150))
+fig.show()
+```
+
+---
+
+## Demographics Summary
+
+- **Gender**: 58.17% Female, 41.83% Male
+- **Marital Status**: 50.73% Married, 41.91% Single, 7.36% Unknown
+- **Education**: 40.90% Graduates, 19.88% High School, 14.99% Unknown
+- **Card Types**: 91.16% Blue, 6.32% Silver, 1.86% Gold, 0.66% Platinum
+
+---
+
+## Financial Behavior Analysis
+
+### Income by Education Level
+
+```{python}
+#| echo: true
+#| fig-cap: "Average Income Distribution by Education Level"
+
+income_by_education = merged_df.groupby('Education_Level')['Income'].mean().reset_index()
+income_by_education = income_by_education.sort_values('Income', ascending=False)
+
+fig = px.bar(income_by_education, x='Education_Level', y='Income',
+             title='Average Income by Education Level',
+             color_discrete_sequence=['#002366'])
+
+fig.update_layout(xaxis_title="Education Level", yaxis_title="Average Income ($)", 
+                 bargap=0.4, bargroupgap=0.2, margin=dict(l=60, r=50, t=50, b=150))
+fig.show()
+```
+
+---
+
+## Credit Limit Analysis
+
+### Credit Limits by Card Type
+
+```{python}
+#| echo: true
+#| fig-cap: "Average Credit Limit by Card Type"
+
+credit_by_card = merged_df.groupby('Card_Category')['Credit_Limit'].mean().reset_index()
+credit_by_card = credit_by_card.sort_values('Credit_Limit', ascending=False)
+
+fig = px.bar(credit_by_card, x='Card_Category', y='Credit_Limit',
+             title='Average Credit Limit by Card Type',
+             color_discrete_sequence=['#002366'])
+
+fig.update_layout(xaxis_title="Card Type", yaxis_title="Average Credit Limit ($)", 
+                 bargap=0.4, bargroupgap=0.2, margin=dict(l=60, r=50, t=50, b=150))
+fig.show()
+```
+
+---
+
+## Statistical Testing
+
+### Gender Differences in Credit Limits
+
+```{python}
+#| echo: true
+#| code-summary: "T-Test for Gender Differences"
+
+# Perform t-test
+men_credit = merged_df[merged_df['Gender'] == 'Male']['Credit_Limit']
+women_credit = merged_df[merged_df['Gender'] == 'Female']['Credit_Limit']
+
+t_stat, p_value = ttest_ind(men_credit, women_credit, nan_policy='omit')
+
+print("T-Test Results: Gender vs Credit Limit")
+print(f"T-statistic: {t_stat:.3f}")
+print(f"P-value: {p_value:.6f}")
+print(f"Significant difference: {'Yes' if p_value < 0.05 else 'No'}")
+print(f"Male average Credit Limit: ${men_credit.mean():,.0f}")
+print(f"Female average Credit Limit: ${women_credit.mean():,.0f}")
+```
+
+---
+
+## Usage Behavior Analysis
+
+### Transaction Patterns Over Time
+
+```{python}
+#| echo: true
+#| fig-cap: "Monthly Transaction Amount Trends"
+
+# Create month order for proper sorting
+month_order = ['January', 'February', 'March', 'April', 'May', 'June',
+               'July', 'August', 'September', 'October', 'November', 'December']
+
+# Group by month and calculate total transactions
+monthly_trans = merged_df.groupby('Month')['Total_Trans_Amt'].sum().reset_index()
+monthly_trans['Month'] = pd.Categorical(monthly_trans['Month'], categories=month_order, ordered=True)
+monthly_trans = monthly_trans.sort_values('Month')
+
+fig = px.line(monthly_trans, x='Month', y='Total_Trans_Amt',
+              title='Total Transaction Amount Over Time',
+              markers=True)
+
+fig.update_traces(line_shape='spline', line=dict(color='#002366', width=3))
+fig.update_layout(xaxis_title="Month", yaxis_title="Total Transaction Amount ($)", 
+                 margin=dict(l=80, r=30, t=50, b=150))
+fig.show()
+```
+
+---
+
+## Risk Assessment
+
+### Delinquent Accounts by State
+
+```{python}
+#| echo: true
+#| fig-cap: "Top 10 States with Highest Delinquent Accounts"
+
+delinq_by_state = merged_df.groupby('state_cd')['Delinquent_Acc'].sum().reset_index()
+delinq_by_state = delinq_by_state.sort_values('Delinquent_Acc', ascending=False).head(10)
+
+fig = px.bar(delinq_by_state, x='Delinquent_Acc', y='state_cd',
+             orientation='h',
+             title='Top 10 States with Highest Delinquent Accounts',
+             color_discrete_sequence=['#002366'])
+
+fig.update_layout(xaxis_title="Number of Delinquent Accounts", yaxis_title="State", 
+                 margin=dict(l=150, r=50, t=50, b=150))
+fig.show()
+```
+
+---
+
+## Customer Satisfaction Analysis
+
+### Satisfaction Score Distribution
+
+```{python}
+#| echo: true
+#| fig-cap: "Customer Satisfaction Score Distribution"
+
+satisfaction_dist = merged_df.groupby('Cust_Satisfaction_Score')['Client_Num'].count().reset_index()
+satisfaction_dist.columns = ['Satisfaction_Score', 'Customer_Count']
+
+fig = px.bar(satisfaction_dist, x='Satisfaction_Score', y='Customer_Count',
+             title='Customer Count by Satisfaction Level',
+             color_discrete_sequence=['#002366'])
+
+fig.update_layout(xaxis_title="Satisfaction Score", yaxis_title="Number of Customers", 
+                 bargap=0.4, bargroupgap=0.2, margin=dict(l=80, r=50, t=50, b=150))
+fig.show()
+```
+
+---
+
+## Key Insights Summary
+
+### 💰 Financial Relationships
+- **Strong Income-Spending Correlation**: 0.97 correlation between Income and Total Transaction Amount
+- **Weak Credit Limit Influence**: Only 0.17 correlation between Credit Limit and Transaction Amount
+- **Annual Fees Irrelevance**: No meaningful correlation with spending behavior
+
+### 📊 Distribution Patterns
+- **Credit Limit Distribution**: Right-skewed (skewness ≈ 1.67) with heavy tails (kurtosis ≈ 1.80)
+- **Income Inequality**: Mean $56,976 vs Median $44,768, indicating income skewness
+- **Gender Differences**: Statistically significant difference in credit limits between genders
+
+---
+
+## Data-Driven Recommendations
+
+### 1. Income-First Strategy
+- **Use income data** (0.97 correlation with spending) as primary business driver
+- **Target high-income customers** for premium products
+- **Set credit limits** based on income, not traditional scoring
+
+### 2. Fee Structure Redesign
+- **Eliminate annual fees** (no correlation with spending behavior)
+- **Implement usage-based pricing** or value-added services
+- **Focus on transaction fees** and rewards programs
+
+---
+
+## Strategic Recommendations (Continued)
+
+### 3. Risk Management Optimization
+- **Set conservative credit limits** (weak correlation with spending)
+- **Implement outlier monitoring** for unusual credit limits
+- **Use income and spending patterns** for limit decisions
+
+### 4. Customer Segmentation
+- **Develop tiered products** based on natural distribution
+- **Create targeted marketing campaigns** for different segments
+- **Focus on the majority** with lower limits while nurturing premium customers
+
+---
+
+## Implementation Plan
+
+### Phase 1: Immediate Actions (0-3 months)
+1. **A/B test new fee structures** for different income segments
+2. **Develop income-based algorithms** for credit limit assignment
+3. **Create targeted marketing campaigns** using income-spending insights
+
+### Phase 2: Medium-term (3-6 months)
+1. **Implement dynamic pricing** based on customer behavior
+2. **Review and optimize** annual fee strategy
+3. **Develop premium services** for high-income customers
+
+---
+
+## Success Metrics
+
+- **Revenue per customer** by income segment
+- **Fee acceptance rates** across different customer segments
+- **Spending velocity** (transactions per month) by income level
+- **Customer lifetime value** based on income and spending patterns
+- **Credit limit utilization rates** vs. actual spending capacity
+
+---
+
+## Limitations & Future Work
+
+### Current Limitations
+- Dataset may not represent all demographics equally
+- Limited temporal analysis (single year)
+- Missing some advanced features (credit scores, payment history)
+
+### Future Research Directions
+- **Longitudinal analysis** across multiple years
+- **Machine learning models** for credit limit prediction
+- **Advanced segmentation** using clustering techniques
+- **Real-time monitoring** systems for outlier detection
+
+---
+
+## Conclusion
+
+### Key Takeaways
+1. **Income is the strongest predictor** of credit card spending behavior
+2. **Credit limits have minimal impact** on actual spending patterns
+3. **Annual fees are ineffective** as revenue drivers
+4. **Gender-based differences** exist in credit limit allocation
+
+### Strategic Impact
+- **Revenue optimization** through income-based strategies
+- **Risk reduction** through conservative credit policies
+- **Customer satisfaction** improvement through targeted services
+- **Operational efficiency** through data-driven decision making
+
+---
+
+# Thank You! {.title-slide}
+
+## Questions & Discussion
+
+**Nadia Iradukunda Hirwa & Jedidah Jah Uwiwe**  
+*Junior Data Analysts*
+  
+**Dashboard**: [Credit Card Financial Dashboard](https://lookerstudio.google.com/u/0/reporting/d29f32ef-cbc1-4b61-91a4-120c2888e857/page/p_tgd5vudltd)

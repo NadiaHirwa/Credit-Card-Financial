@@ -418,7 +418,7 @@ Targeted Messaging: Different campaigns for low vs. high limit segments
 Limit Increase Campaigns: Focus on the large segment with lower limits
 Premium Positioning: Exclusive offerings for high-limit customers
 
-## `Gender` Distribution
+## Gender Distribution
 
 ```{python}
 merged_df_gender = merged_df.groupby('Gender').size().reset_index(name='total')
@@ -426,6 +426,8 @@ merged_df_gender
 ```
 
 ```{python}
+#| echo: false
+#| output: false
 gender_dist = merged_df['Gender'].value_counts().reset_index()
 gender_dist.columns = ['Gender', 'count']
 
@@ -479,14 +481,18 @@ Key Observations:
   - Both distributions are right-skewed
   - Male group shows more extreme high-value outliers
 
-## Income by `Education Level`
+## Income by Education Level
 
 ```{python}
+#| echo: false
+#| output: false
 merged_df_income_edlevel = merged_df.groupby('Education_Level')['Income'].mean().reset_index(name='average_income').sort_values(by='average_income', ascending=False)
 merged_df_income_edlevel
 ```
 
 ```{python}
+#| echo: false
+#| output: false
 total_income = merged_df_income_edlevel['average_income'].sum()
 merged_df_income_edlevel['percentage'] = (merged_df_income_edlevel['average_income'] / total_income) * 100
 merged_df_income_edlevel = merged_df_income_edlevel.sort_values(by='Education_Level', ascending=False)
@@ -535,9 +541,11 @@ fig.show()
 
 This bar chart compares average income across different education levels. Surprisingly, individuals with an "Unknown" education level report the highest average income (16.99%), followed by " Uneducated" graduates (16.79%). Meanwhile, those with "Doctorate" degrees have the lowest average income (16.27%). This suggests that formal education does not necessarily correlate with higher income in this dataset, possibly due to other factors like occupation type or regional economic conditions.
 
-## `Customers` by `Marital Status`
+## Customers by Marital Status
 
 ```{python}
+#| echo: false
+#| output: false
 marital_status_df = merged_df['Marital_Status'].value_counts().reset_index()
 marital_status_df.columns = ['Marital_Status', 'total_customers']
 marital_status_df = marital_status_df.sort_values(by='total_customers', ascending=False)
@@ -545,6 +553,8 @@ marital_status_df
 ```
 
 ```{python}
+#| echo: false
+#| output: false
 total = marital_status_df['total_customers'].sum()
 marital_status_df['percentage'] = (marital_status_df['total_customers'] / total) * 100
 marital_status_df
@@ -592,29 +602,23 @@ fig.show()
 
 The dataset shows that 50.73% of customers are married, 41.91% are single, and 7.36% have an unknown marital status. Since married individuals dominate, banks could explore whether marital status influences spending behavior, credit utilization, or repayment patterns. For example, married couples might have higher combined credit limits or different financial priorities.
 
-## Average `Credit Limit` by `Card Type`
+## Average Credit Limit by Card Type
 
 ```{python}
+#| echo: false
+#| output: false
 avg_credit_by_card = merged_df.groupby('Card_Category')['Credit_Limit'].mean().reset_index(name='average_credit_limit')
 avg_credit_by_card = avg_credit_by_card.sort_values(by='average_credit_limit', ascending=False)
 avg_credit_by_card
 ```
 
 ```{python}
+#| echo: false
+#| output: false
 total_credit = avg_credit_by_card['average_credit_limit'].sum()
 avg_credit_by_card['percentage'] = (avg_credit_by_card['average_credit_limit'] / total_credit) * 100
 avg_credit_by_card
 ```
-
-Purpose: Shows the distribution of average credit limits across different card types.
-
-Key Insights:
-
-Platinum cards have the highest average credit limit (33.9%), followed by gold (31.68%) and silver (23.85%).
-
-Blue cards have the lowest limit (10.56%).
-
-Implication: Premium cards (platinum/gold) offer higher credit limits, likely targeting high-income customers.
 
 ```{python}
 #| scrolled: true
@@ -661,15 +665,19 @@ KPlatinum cards have the highest average credit limit (33.9%), followed by gold 
 Blue cards have the lowest limit (10.56%).
 Premium cards (platinum/gold) offer higher credit limits, likely targeting high-income customers.
 
-## Average `Interest Earned` per `Card Type`
+## Average Interest Earned per Card Type
 
 ```{python}
+#| echo: false
+#| output: false
 avg_interest_by_card = merged_df.groupby('Card_Category')['Interest_Earned'].mean().reset_index(name='average_interest')
 avg_interest_by_card = avg_interest_by_card.sort_values(by='average_interest', ascending=False)
 avg_interest_by_card
 ```
 
 ```{python}
+#| echo: false
+#| output: false
 total_interest = avg_interest_by_card['average_interest'].sum()
 avg_interest_by_card['percentage'] = (avg_interest_by_card['average_interest'] / total_interest) * 100
 avg_interest_by_card
@@ -723,12 +731,16 @@ Implication: Higher credit limits (platinum/gold) may lead to more borrowing and
 ## Usage Mode vs Total Spend
 
 ```{python}
+#| echo: false
+#| output: false
 usage_vs_spend = merged_df.groupby('Use Chip')['Total_Trans_Amt'].sum().reset_index(name='total_spend')
 usage_vs_spend = usage_vs_spend.sort_values(by='total_spend', ascending=True)
 usage_vs_spend
 ```
 
 ```{python}
+#| echo: false
+#| output: false
 total_spend_sum = usage_vs_spend['total_spend'].sum()
 usage_vs_spend['percentage'] = (usage_vs_spend['total_spend'] / total_spend_sum) * 100
 usage_vs_spend
@@ -782,12 +794,16 @@ Implication: Customers prefer in-person transactions (swipe/chip) over online pa
 ## Total Transaction Amount Over Time
 
 ```{python}
+#| echo: false
+#| output: false
 month_order = ['January', 'February', 'March', 'April', 'May', 'June',
                'July', 'August', 'September', 'October', 'November', 'December']
 merged_df['Month'] = pd.Categorical(merged_df['Month'], categories=month_order, ordered=True)
 ```
 
 ```{python}
+#| echo: false
+#| output: false
 monthly_trans_amt = merged_df.groupby('Month')['Total_Trans_Amt'].sum().reset_index(name='total_transaction_amount')
 monthly_trans_amt = monthly_trans_amt.sort_values('Month')
 monthly_trans_amt
@@ -809,11 +825,12 @@ fig.update_layout(
     template="presentation",
     xaxis_title="Month",
     yaxis_title="Total Transaction Amount",
-    paper_bgcolor="rgba(0,0,0,0)",
-    plot_bgcolor="rgba(0,0,0,0)",
-    font=dict(color="White"), 
-    xaxis=dict(showgrid=False),
-    yaxis=dict(showgrid=False)
+    paper_bgcolor="White",
+    plot_bgcolor="White",
+    margin=dict(l=80, r=30, t=50, b=150),
+    font=dict(color="black"), 
+    xaxis=dict(showgrid=False, color = "black"),
+    yaxis=dict(showgrid=False, color = "black")
 )
 
 fig.write_image(os.path.join(results_dir, 'Total_Transaction_Amount_Over_Time.jpg'))
@@ -831,12 +848,16 @@ Implication: Seasonal spikes (e.g., holidays, tax season) drive higher spending.
 ## Spending by Expense Type 
 
 ```{python}
+#| echo: false
+#| output: false
 exp_type_spending = merged_df.groupby('Exp Type')['Client_Num'].nunique().reset_index(name='total_customers').sort_values(['Exp Type', 'total_customers'])
 exp_type_spending = exp_type_spending.sort_values(by='total_customers', ascending=False)
 exp_type_spending
 ```
 
 ```{python}
+#| echo: false
+#| output: false
 total_customers = exp_type_spending['total_customers'].sum()
 exp_type_spending['percentage'] = (exp_type_spending['total_customers'] / total_customers) * 100
 exp_type_spending
@@ -888,12 +909,16 @@ Implication: Essential expenses (Bills/Entertainment) are primary spending drive
 ## Delinquent Accounts by State 
 
 ```{python}
+#| echo: false
+#| output: false
 delinq_by_state = merged_df.groupby('state_cd')['Delinquent_Acc'].sum().reset_index(name='total_delinquent')
 delinq_by_state = delinq_by_state.sort_values(by='total_delinquent', ascending=False)
 delinq_by_state
 ```
 
 ```{python}
+#| echo: false
+#| output: false
 total_delinq = delinq_by_state['total_delinquent'].sum()
 delinq_by_state['percentage'] = (delinq_by_state['total_delinquent'] / total_delinq) * 100
 delinq_by_state
@@ -942,12 +967,16 @@ Implication: Higher-risk regions may need targeted collection strategies.
 ## Customer Count by Satisfaction Level
 
 ```{python}
+#| echo: false
+#| output: false
 funnel_df = merged_df.groupby('Cust_Satisfaction_Score')['Client_Num'].count().reset_index(name='customer_count')
 funnel_df = funnel_df.sort_values(by='customer_count', ascending=False)
 funnel_df
 ```
 
 ```{python}
+#| echo: false
+#| output: false
 total_customers = funnel_df['customer_count'].sum()
 funnel_df['percentage'] = (funnel_df['customer_count'] / total_customers) * 100
 funnel_df
@@ -976,7 +1005,7 @@ fig.update_layout(
     template="presentation",
     bargap=0.4,
     bargroupgap=0.2, 
-    margin=dict(l=60, r=50, t=50, b=150),
+    margin=dict(l=80, r=50, t=50, b=150),
     paper_bgcolor="rgba(0,0,0,0)",
     plot_bgcolor="rgba(0,0,0,0)",
     height=700,
@@ -1002,12 +1031,16 @@ Implication: Service improvements could target mid-range scorers to boost loyalt
 ## Customer Occupation Breakdown
 
 ```{python}
+#| echo: false
+#| output: false
 job_df = merged_df.groupby('Customer_Job')['Client_Num'].count().reset_index(name='customer_count')
 job_df = job_df.sort_values(by='customer_count', ascending=False)
 job_df
 ```
 
 ```{python}
+#| echo: false
+#| output: false
 total_jobs = job_df['customer_count'].sum()
 job_df['percentage'] = (job_df['customer_count'] / total_jobs) * 100
 job_df

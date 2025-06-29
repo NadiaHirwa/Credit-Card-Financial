@@ -1,0 +1,85 @@
+﻿Task Description:
+Using the data provided on the Looker Studio assignment (maintaining the existing groups you were assigned), and building on the project structuring and documentation exercises completed this week, you are required to:
+1. Develop a well-formatted, self-contained HTML report that includes:
+   * Descriptive analysis with clear, insightful explanations.
+   * Meaningful visualizations accompanied by thoughtful interpretations.
+   * Data-driven recommendations supported by appropriate statistical tests.
+   * Comments on possible correlations between variables where applicable.
+2. Create a presentation of your insights, preferably using Quarto, or any other suitable tool. Your slides should effectively summarize the key findings and recommendations from your analysis.
+Submission Instructions:
+* Only one group member should submit the two final files (the HTML report and the presentation slides) via Google Classroom.
+* However, each individual group member must push their own well-structured and fully documented version of the project to their personal GitHub repository.
+File Naming:
+Both the HTML report and the presentation slides should be clearly named according to your dataset’s name.
+Example: If your dataset is named “Crime Against Woman”, your files should be
+* crimes_against_women_data_analysis_report.html
+* crimes_against_women_data_insights_slides.pdf or crimes_against_women_data_insights_slides.pptx or crimes_against_women_data_insights_slides.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Marking Rubric
+
+
+Component
+	Criteria
+	Marks
+	1. Project Structuring & Documentation (GitHub)
+	- Clean, organized, and well-documented project files and folders
+- Clear README file explaining the project, dataset, and how to navigate the project
+	10
+	2. Descriptive Analysis
+	- Accurate and appropriate use of descriptive statistics (mean, median, mode, range, etc.)
+- Clear, well-written explanations accompanying the analysis
+	15
+	3. Visualizations
+	- Relevant, well-designed visualizations (charts, graphs, plots, etc.)
+- Visualizations accompanied by insightful, well-articulated interpretations
+	15
+	4. Statistical Tests & Correlation Analysis
+	- Appropriate statistical tests applied (e.g., t-test, chi-square, correlation tests, etc.)
+- Correct interpretation of results
+- Identification and commentary on possible correlations between variables
+	15
+	5. Data-Driven Recommendations
+	- Practical, data-supported recommendations derived from the analysis
+- Recommendations clearly linked to findings and insights
+	10
+	6. HTML Report Formatting
+	- Well-structured, self-contained HTML report
+- Clean layout, logical flow, and effective use of headings, tables, and visuals
+	10
+	7. Presentation Slides 
+	- Clear, concise, and engaging presentation summarizing key findings, insights, and recommendations
+- Preferably created with Quarto 
+- Effective visual and textual balance on slides
+	15
+	8. Submission & Compliance
+	- One group member submitted both files on Google Classroom as instructed
+- Each group member pushed their individual, well-documented project version to their personal GitHub
+- Files appropriately named according to dataset
+	5
+	9. Presentation Delivery 
+	- Clear, confident, and structured verbal or recorded delivery of findings 
+- Ability to answer questions about the project
+	5 (bonus)
